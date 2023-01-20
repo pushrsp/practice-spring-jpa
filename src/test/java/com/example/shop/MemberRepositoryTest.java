@@ -1,0 +1,32 @@
+package com.example.shop;
+
+import org.assertj.core.api.Assertions;
+import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.transaction.annotation.Transactional;
+
+@SpringBootTest
+class MemberRepositoryTest {
+
+    @Autowired
+    MemberRepository memberRepository;
+
+    @Test
+    @Transactional
+    public void testMember() throws Exception {
+        //given
+        Member member = new Member();
+        member.setUsername("a");
+
+        //when
+        Long id = memberRepository.save(member);
+        Member findMember = memberRepository.find(id);
+
+        //then
+        Assertions.assertThat(findMember.getId()).isEqualTo(id);
+        Assertions.assertThat(findMember.getUsername()).isEqualTo(member.getUsername());
+        Assertions.assertThat(findMember).isEqualTo(member);
+    }
+
+}
