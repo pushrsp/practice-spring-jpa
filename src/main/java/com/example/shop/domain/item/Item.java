@@ -10,7 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Entity
-@Getter
+@Getter @Setter
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 @DiscriminatorColumn(name = "dtype")
 public abstract class Item {
@@ -27,16 +27,12 @@ public abstract class Item {
     @ManyToMany(mappedBy = "items")
     private List<Category> categories = new ArrayList<>();
 
-    /**
-     * 재고 증가
-     */
+    /* 재고 증가 */
     public void addStock(int quantity) {
         this.stockQuantity += quantity;
     }
 
-    /**
-     * 재고 감소
-     */
+    /* 재고 감소 */
     public void removeStock(int quantity) {
         int remain = this.stockQuantity - quantity;
         if(remain < 0)
